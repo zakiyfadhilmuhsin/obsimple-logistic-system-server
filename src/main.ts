@@ -19,7 +19,8 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const PORT = +configService.get<number>('PORT');
   
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
+  app.enableCors();
 
   if(configService.get<string>('NODE_ENV') === NODE_ENV.DEVELOPMENT) {
     setupSwagger(app);

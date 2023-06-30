@@ -65,7 +65,17 @@ export class AuthenticationService {
     }
 
     /**
-     *  Get Cookie With JWT Token
+     *  Get JWT token
+     */
+    public getJwtToken(userId: number) {
+        const payload: TokenPayload = { userId };
+        const token = this.jwtService.sign(payload);
+        console.log(token)
+        return token;
+    }
+
+    /**
+     *  Get Cookie With JWT Token (Archive) (Cookie Auth)
      */
     public getCookieWithJwtToken(userId: number) {
         const payload: TokenPayload = { userId };
@@ -74,7 +84,7 @@ export class AuthenticationService {
     }
 
     /**
-     *  Get Cookie For Logout
+     *  Get Cookie For Logout (Archive) (Cookie Auth)
      */
     public getCookieForLogOut() {
         return `Authentication=; HttpOnly; Path=/; Max-Age=0`;

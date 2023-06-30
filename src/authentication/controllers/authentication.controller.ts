@@ -28,10 +28,12 @@ export class AuthenticationController {
         @Res({ passthrough: true }) response: FastifyReply
     ) {
         const { user } = request;
-        const cookie = this.authenticationService.getCookieWithJwtToken(user.id);
-        response.header('Set-Cookie', cookie);
+        const token = this.authenticationService.getJwtToken(user.id);
         user.password = undefined;
-        return response.send(user);
+        return response.send({
+            access_token: token,
+            user: user
+        });
     }
 
     /**

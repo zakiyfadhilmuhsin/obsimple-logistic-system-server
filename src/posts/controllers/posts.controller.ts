@@ -1,9 +1,23 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { 
+  Controller, 
+  Get, 
+  Post, 
+  Body, 
+  Patch, 
+  Param, 
+  Delete, 
+  UseGuards, 
+  Query, 
+  //UseInterceptors, 
+  //ClassSerializerInterceptor 
+} from '@nestjs/common';
 import { PostsService } from '../services/posts.service';
 import { JwtAuthGuard } from 'src/authentication/guards';
 import { CreatePostDto, UpdatePostDto } from '../dtos';
+import { PageOptionsDto } from 'src/common/dtos';
 
 @Controller('posts')
+//@UseInterceptors(ClassSerializerInterceptor)
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
@@ -14,8 +28,8 @@ export class PostsController {
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  findAll() {
-    return this.postsService.findAll();
+  findAll(@Query() pageOptionsDto: PageOptionsDto) {
+    return this.postsService.findAll(pageOptionsDto);
   }
 
   @Get(':id')

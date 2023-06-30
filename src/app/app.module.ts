@@ -8,7 +8,6 @@ import { AuthenticationModule } from '../authentication/authentication.module';
 
 @Module({
   imports: [
-    PostsModule, 
     ConfigModule.forRoot({
       validationSchema: Joi.object({
         POSTGRES_HOST: Joi.string().required(),
@@ -22,7 +21,10 @@ import { AuthenticationModule } from '../authentication/authentication.module';
         JWT_EXPIRATION_TIME: Joi.string().required()
       })
     }), 
-    DatabaseModule, UsersModule, AuthenticationModule
+    DatabaseModule, 
+    UsersModule,
+    AuthenticationModule,
+    PostsModule
   ],
   controllers: [],
   providers: [],
