@@ -27,6 +27,8 @@ async function bootstrap() {
   }
   fastifyInstance(app);
 
+  console.log(PORT)
+
   await app.register(fastifyCookie);
   await app.listen(PORT);
 }
