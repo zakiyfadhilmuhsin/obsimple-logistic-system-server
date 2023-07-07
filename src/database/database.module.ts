@@ -20,7 +20,12 @@ import { SnakeNamingStrategy } from './strategies';
         ],
         namingStrategy: new SnakeNamingStrategy(),
         synchronize: true,
-        autoLoadEntities: true
+        autoLoadEntities: true,
+        extra: {
+          ssl: {
+            rejectUnauthorized: true,
+          },
+        },
       })
     })
   ]
