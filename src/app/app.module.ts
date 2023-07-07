@@ -5,6 +5,9 @@ import { DatabaseModule } from '../database/database.module';
 import { UsersModule } from '../users/users.module';
 import * as Joi from '@hapi/joi';
 import { AuthenticationModule } from '../authentication/authentication.module';
+import { ProductsModule } from '../products/products.module';
+import { InventoriesModule } from 'src/inventories/inventories.module';
+import { WarehousesModule } from 'src/warehouses/warehouses.module';
 
 @Module({
   imports: [
@@ -24,7 +27,10 @@ import { AuthenticationModule } from '../authentication/authentication.module';
     DatabaseModule, 
     UsersModule,
     AuthenticationModule,
-    PostsModule
+    PostsModule,
+    ProductsModule,
+    InventoriesModule,
+    WarehousesModule
   ],
   controllers: [],
   providers: [],
