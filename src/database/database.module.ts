@@ -23,7 +23,7 @@ import { SnakeNamingStrategy } from './strategies';
         autoLoadEntities: true,
         extra: {
           ssl: {
-            rejectUnauthorized: true,
+            rejectUnauthorized: false,
           },
         },
       })
