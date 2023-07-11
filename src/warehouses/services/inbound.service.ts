@@ -64,6 +64,15 @@ export class InboundService {
                     remarks: 'Inbound'
                 });
 
+                if(inbound_data.inbound_type === 'RETURN') {
+                    await this.warehouseService.createReturn({
+                        product: item.product,
+                        shipment_number: inbound_data.shipment_number,
+                        quantity: item.quantity,
+                        return_info: ''
+                    })
+                }
+
                 return await this.inboundDetailRepository.save(newInboundDetail);
             })
         );

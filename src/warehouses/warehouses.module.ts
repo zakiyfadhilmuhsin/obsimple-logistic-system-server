@@ -9,6 +9,7 @@ import { ProductEntity } from "src/products/entities";
 import { InventoriesModule } from "src/inventories/inventories.module";
 import { WarehouseService } from "./services/warehouse.service";
 import { WarehouseController } from "./controllers/warehouse.controller";
+import { ReturnEntity } from "./entities/return.entity";
 
 @Module({
     imports: [
@@ -18,7 +19,8 @@ import { WarehouseController } from "./controllers/warehouse.controller";
             OutboundEntity,
             OutboundDetailEntity,
             StockInOutEntity,
-            ProductEntity
+            ProductEntity,
+            ReturnEntity
         ]),
         InventoriesModule
     ],
