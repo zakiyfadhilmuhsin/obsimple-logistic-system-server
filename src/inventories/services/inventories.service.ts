@@ -2,11 +2,12 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { StockEntity } from "../entities";
 import { Repository } from "typeorm";
-import { PageDto, PageMetaDto, PageOptionsDto } from "src/common/dtos";
+import { PageOptionsDto } from "src/common/dtos";
 import { StockRecordEntity } from "../entities/stock-record.entity";
 import { CreateStockChangeRecordDto } from "../dtos/create-stock-change-record.dto";
 import { UpdateStockDto } from "../dtos/update-stock.dto";
 import { ProductEntity } from "src/products/entities";
+import { datatableGetItems } from "src/common/functions";
 
 @Injectable()
 export class InventoryService {
@@ -17,21 +18,11 @@ export class InventoryService {
     ) {}
 
     async getStockList(pageOptionsDto: PageOptionsDto) {
-        const queryBuilder = this.stocksRepository
-            .createQueryBuilder("stocks")
-            .innerJoinAndSelect("stocks.product", "product_name");
-        
-        queryBuilder
-            .orderBy("stocks.createdAt", pageOptionsDto.order)
-            .skip(pageOptionsDto.skip)
-            .take(pageOptionsDto.take);
+        // Relation
+        const relations = [{ path: 'product' }];
 
-        const itemCount = await queryBuilder.getCount();
-        const { entities } = await queryBuilder.getRawAndEntities();
-
-        const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
-
-        return new PageDto(entities, pageMetaDto);
+        // Get Datatable Items
+        return datatableGetItems(this.stocksRepository, "stocks", pageOptionsDto, relations);
     }
 
     async updateStock(updateStockDto: UpdateStockDto) {
@@ -82,21 +73,10 @@ export class InventoryService {
     }
 
     async getStockRecordList(pageOptionsDto: PageOptionsDto) {
-        const queryBuilder = this.stockRecordsRepository
-            .createQueryBuilder("stock-records")
-            .innerJoinAndSelect("stock-records.product", "product_name");
-        
-        queryBuilder
-            //.orderBy("stock-records.createdAt", pageOptionsDto.order)
-            .orderBy("stock-records.createdAt", 'DESC')
-            .skip(pageOptionsDto.skip)
-            .take(pageOptionsDto.take);
+        // Relation
+        const relations = [{ path: 'product' }];
 
-        const itemCount = await queryBuilder.getCount();
-        const { entities } = await queryBuilder.getRawAndEntities();
-
-        const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
-
-        return new PageDto(entities, pageMetaDto);
+        // Get Datatable Items
+        return datatableGetItems(this.stockRecordsRepository, "stock-records", pageOptionsDto, relations);
     }
 }

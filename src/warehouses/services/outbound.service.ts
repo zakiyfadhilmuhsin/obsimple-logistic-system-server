@@ -8,6 +8,7 @@ import { PageDto, PageMetaDto, PageOptionsDto } from "src/common/dtos";
 import { InventoryService } from "src/inventories/services";
 import { WarehouseService } from "./warehouse.service";
 import { OutboundStatus } from "src/common/constants";
+import { datatableGetItems } from "src/common/functions";
 
 @Injectable()
 export class OutboundService {
@@ -74,21 +75,11 @@ export class OutboundService {
     }
 
     async getOutboundList(pageOptionsDto: PageOptionsDto) {
-        const queryBuilder = this.outboundRepository
-            .createQueryBuilder("warehouse_outbound")
-            .innerJoinAndSelect("warehouse_outbound.details", "uuid");
-        
-        queryBuilder
-            .orderBy("warehouse_outbound.createdAt", pageOptionsDto.order)
-            .skip(pageOptionsDto.skip)
-            .take(pageOptionsDto.take);
+        // Relation
+        const relations = [{ path: 'details' }];
 
-        const itemCount = await queryBuilder.getCount();
-        const { entities } = await queryBuilder.getRawAndEntities();
-
-        const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
-
-        return new PageDto(entities, pageMetaDto);
+        // Get Datatable Items
+        return datatableGetItems(this.outboundRepository, "warehouse_outbound", pageOptionsDto, relations);
     }
 
     async getOutboundById(id: number) {

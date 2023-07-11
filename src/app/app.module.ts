@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { PostsModule } from '../posts/posts.module';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from '../database/database.module';
 import { UsersModule } from '../users/users.module';
@@ -27,7 +26,6 @@ import { WarehousesModule } from 'src/warehouses/warehouses.module';
     DatabaseModule, 
     UsersModule,
     AuthenticationModule,
-    PostsModule,
     ProductsModule,
     InventoriesModule,
     WarehousesModule

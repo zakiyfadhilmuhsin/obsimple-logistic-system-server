@@ -7,7 +7,7 @@ export class StockEntity extends AbstractEntity {
     @Column()
     available_stock: number;
 
-    @OneToOne(() => ProductEntity, { cascade: true, eager: true })
+    @OneToOne(() => ProductEntity, (product) => product.stocks)
     @JoinColumn()
     product: ProductEntity;
 }

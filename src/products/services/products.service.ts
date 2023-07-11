@@ -4,8 +4,9 @@ import { UpdateProductDto } from '../dtos/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProductEntity } from '../entities';
 import { Repository } from 'typeorm';
-import { PageDto, PageMetaDto, PageOptionsDto } from 'src/common/dtos';
+import { PageOptionsDto } from 'src/common/dtos';
 import { StockEntity } from 'src/inventories/entities';
+import { datatableGetItems } from 'src/common/functions';
 
 @Injectable()
 export class ProductsService {
@@ -30,19 +31,7 @@ export class ProductsService {
     }
 
     async findAll(pageOptionsDto: PageOptionsDto) {
-        const queryBuilder = this.productsRepository.createQueryBuilder("products");
-        
-        queryBuilder
-            .orderBy("products.createdAt", pageOptionsDto.order)
-            .skip(pageOptionsDto.skip)
-            .take(pageOptionsDto.take);
-
-        const itemCount = await queryBuilder.getCount();
-        const { entities } = await queryBuilder.getRawAndEntities();
-
-        const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
-
-        return new PageDto(entities, pageMetaDto);
+        return datatableGetItems(this.productsRepository, "products", pageOptionsDto);
     }
 
     async findOne(id: number) {

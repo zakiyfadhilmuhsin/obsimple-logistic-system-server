@@ -7,6 +7,7 @@ import { ProductEntity } from "src/products/entities";
 import { PageDto, PageMetaDto, PageOptionsDto } from "src/common/dtos";
 import { InventoryService } from "src/inventories/services";
 import { WarehouseService } from "./warehouse.service";
+import { datatableGetItems } from "src/common/functions";
 
 @Injectable()
 export class InboundService {
@@ -74,20 +75,10 @@ export class InboundService {
     }
 
     async getInboundList(pageOptionsDto: PageOptionsDto) {
-        const queryBuilder = this.inboundRepository
-            .createQueryBuilder("warehouse_inbound")
-            .innerJoinAndSelect("warehouse_inbound.details", "uuid");
-        
-        queryBuilder
-            .orderBy("warehouse_inbound.createdAt", pageOptionsDto.order)
-            .skip(pageOptionsDto.skip)
-            .take(pageOptionsDto.take);
+        // Relation
+        const relations = [{ path: 'details' }];
 
-        const itemCount = await queryBuilder.getCount();
-        const { entities } = await queryBuilder.getRawAndEntities();
-
-        const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
-
-        return new PageDto(entities, pageMetaDto);
+        // Get Datatable Items
+        return datatableGetItems(this.inboundRepository, "warehouse_inbound", pageOptionsDto, relations);
     }
 }

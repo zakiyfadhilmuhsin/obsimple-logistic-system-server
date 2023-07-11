@@ -5,6 +5,7 @@ import { Repository } from "typeorm";
 import { CreateStockInOutDto } from "../dtos/create-stock-in-out.dto";
 import { ProductEntity } from "src/products/entities";
 import { PageDto, PageMetaDto, PageOptionsDto } from "src/common/dtos";
+import { datatableGetItems } from "src/common/functions";
 
 @Injectable()
 export class WarehouseService {
@@ -26,21 +27,10 @@ export class WarehouseService {
     }
 
     async getStockInOutRecord(pageOptionsDto: PageOptionsDto) {
-        const queryBuilder = this.stockInOutRepository
-            .createQueryBuilder("warehouse_stock_in_out")
-            .innerJoinAndSelect("warehouse_stock_in_out.product", "product_name");
-        
-        queryBuilder
-            //.orderBy("warehouse_stock_in_out.createdAt", pageOptionsDto.order)
-            .orderBy("warehouse_stock_in_out.createdAt", 'DESC')
-            .skip(pageOptionsDto.skip)
-            .take(pageOptionsDto.take);
+        // Relation
+        const relations = [{ path: 'product' }];
 
-        const itemCount = await queryBuilder.getCount();
-        const { entities } = await queryBuilder.getRawAndEntities();
-
-        const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
-
-        return new PageDto(entities, pageMetaDto);
+        // Get Datatable Items
+        return datatableGetItems(this.stockInOutRepository, "warehouse_stock_in_out", pageOptionsDto, relations);
     }
 }
