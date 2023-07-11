@@ -1,3 +1,4 @@
+import { InboundType } from "src/common/constants";
 import { AbstractEntity } from "src/common/entities/abstract.entity";
 import { ProductEntity } from "src/products/entities";
 import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
@@ -7,11 +8,18 @@ export class InboundEntity extends AbstractEntity {
     @Column()
     shipment_number?: string;
     
-    @Column()
+    @Column({ nullable: true })
     note?: string;
 
     @OneToMany(() => InboundDetailEntity, (inbound_detail) => inbound_detail.inbound)
-    details: InboundDetailEntity[]
+    details: InboundDetailEntity[];
+
+    @Column({
+        type: 'enum',
+        enum: InboundType,
+        default: InboundType.PURCHASE
+    })
+    inbound_type: InboundType;
 }
 
 @Entity({ name: 'warehouse_inbound_detail' })

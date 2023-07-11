@@ -8,7 +8,7 @@ export class OutboundEntity extends AbstractEntity {
     @Column()
     shipment_number: string;
     
-    @Column()
+    @Column({ nullable: true })
     note?: string;
 
     @Column({

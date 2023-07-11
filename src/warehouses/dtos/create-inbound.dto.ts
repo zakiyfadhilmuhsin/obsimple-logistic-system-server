@@ -1,5 +1,6 @@
 import { Type } from "class-transformer";
-import { ArrayMinSize, ArrayNotEmpty, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
+import { ArrayMinSize, ArrayNotEmpty, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
+import { InboundType } from "src/common/constants";
 
 export class CreateInboundDto {
     @IsOptional()
@@ -15,6 +16,10 @@ export class CreateInboundDto {
     @ValidateNested({ each: true })
     @Type(() => CreateInboundDetailDto)
     details: CreateInboundDetailDto[]
+    
+    @IsOptional()
+    @IsEnum(InboundType)
+    inbound_type: InboundType;
 }
 
 export class CreateInboundDetailDto {

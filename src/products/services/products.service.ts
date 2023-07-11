@@ -31,7 +31,10 @@ export class ProductsService {
     }
 
     async findAll(pageOptionsDto: PageOptionsDto) {
-        return datatableGetItems(this.productsRepository, "products", pageOptionsDto);
+        // Relation
+        const relations = [{ path: 'warehouse_return' }];
+
+        return datatableGetItems(this.productsRepository, "products", pageOptionsDto, relations);
     }
 
     async findOne(id: number) {
