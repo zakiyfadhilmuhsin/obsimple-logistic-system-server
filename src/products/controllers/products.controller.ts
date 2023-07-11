@@ -24,4 +24,9 @@ export class ProductsController {
     findProductByBarcode(@Param('barcode') barcode: string) {
         return this.productsService.findProductByBarcode(barcode);
     }
+
+    @Delete(':id')
+    async deleteProduct(@Param('id') id: number) {
+        return await this.productsService.remove(id);
+    }
 }

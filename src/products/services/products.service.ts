@@ -60,9 +60,14 @@ export class ProductsService {
     }
 
     async remove(id: number) {
+        const stock = await this.stocksRepository.findOne({  where: { product: { id: id } }, relations: ['product'] });
+
+        await this.stocksRepository.delete(stock.id);
         const deleteResponse = await this.productsRepository.delete(id);
         if(!deleteResponse.affected) {
             throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
+        }else{
+            return deleteResponse;
         }
     }
 }
