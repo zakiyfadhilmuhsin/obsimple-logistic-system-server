@@ -56,4 +56,34 @@ export class WarehouseService {
         // Get Datatable Items
         return datatableGetItems(this.returnRepository, "warehouse_return", pageOptionsDto, relations);
     }
+
+    async exportStockInOutList() {
+        const stockInOutList = await this.stockInOutRepository.find({ relations: ['product'] }) as any;
+
+        return stockInOutList.map(item => ({
+            sku: item.product.sku,
+            product: item.product.product_name,
+            adjustment_method: item.adjustment_method,
+            movement_stock: item.movement_stock,
+            current_stock: item.current_stock,
+            latest_stock: item.latest_stock,
+            remarks: item.remarks,
+            created_at: item.createdAt,
+            updated_at: item.updatedAt
+        }));
+    }
+
+    async exportReturnList() {
+        const returnList = await this.returnRepository.find({ relations: ['product'] }) as any;
+
+        return returnList.map(item => ({
+            sku: item.product.sku,
+            product: item.product.product_name,
+            shipment_number: item.shipment_number,
+            quantity: item.quantity,
+            return_info: item.return_info,
+            created_at: item.createdAt,
+            updated_at: item.updatedAt
+        }))
+    }
 }

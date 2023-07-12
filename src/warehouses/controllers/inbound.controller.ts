@@ -24,4 +24,10 @@ export class InboundController {
     async getInboundById(@Param('id') id: number) {
         return await this.inboundService.getInboundById(id);
     }
+
+    @Get('export-inbound-list')
+    @UseGuards(JwtAuthGuard)
+    async getExportInboundList() {
+        return await this.inboundService.exportInboundList();
+    }
 }

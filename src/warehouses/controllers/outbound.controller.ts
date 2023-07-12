@@ -29,4 +29,10 @@ export class OutboundController {
     async ProcessPickup(@Body() body: any) {
         return await this.outboundService.processPickup(body);
     }
+
+    @Get('export-outbound-list')
+    @UseGuards(JwtAuthGuard)
+    async getExportOutboundList() {
+        return await this.outboundService.exportOutboundList();
+    }
 }

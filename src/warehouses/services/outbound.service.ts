@@ -111,4 +111,23 @@ export class OutboundService {
             details: updateOutboundDetails
         }
     }
+
+    async exportOutboundList() {
+        const outboundDetailList = await this.outboundDetailRepository.find({
+            relations: {
+                outbound: true,
+                product: true
+            }
+        }) as any;
+
+        return outboundDetailList.map(item => ({
+            shipment_number: item.outbound.shipment_number,
+            note: item.outbound.note,
+            sku: item.product.sku,
+            product: item.product.product_name,
+            quantity: item.actual_outbound_quantity,
+            created_at: item.createdAt,
+            updated_at: item.updatedAt
+        }))
+    }
 }

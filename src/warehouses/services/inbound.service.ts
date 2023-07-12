@@ -101,4 +101,24 @@ export class InboundService {
             } 
         });
     }
+
+    async exportInboundList() {
+        const inboundDetailList = await this.inboundDetailRepository.find({
+            relations: {
+                inbound: true,
+                product: true
+            }
+        }) as any;
+
+        return inboundDetailList.map(item => ({
+            shipment_number: item.inbound.shipment_number,
+            inbound_type: item.inbound.inbound_type,
+            note: item.inbound.note,
+            sku: item.product.sku,
+            product: item.product.product_name,
+            quantity: item.actual_inbound_quantity,
+            created_at: item.createdAt,
+            updated_at: item.updatedAt
+        }))
+    }
 }

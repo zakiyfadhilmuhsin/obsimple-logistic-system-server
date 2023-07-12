@@ -79,4 +79,30 @@ export class InventoryService {
         // Get Datatable Items
         return datatableGetItems(this.stockRecordsRepository, "stock-records", pageOptionsDto, relations);
     }
+
+    async exportStockList() {
+        const stockList = await this.stocksRepository.find({ relations: ['product'] }) as any;
+
+        return stockList.map(item => ({
+            sku: item.product.sku,
+            product: item.product.product_name,
+            available_stock: item.available_stock,
+            created_at: item.createdAt,
+            updated_at: item.updatedAt
+        }))
+    }
+
+    async exportStockRecordList() {
+        const stockRecordList = await this.stockRecordsRepository.find({ relations: ['product'] }) as any;
+
+        return stockRecordList.map(item => ({
+            sku: item.product.sku,
+            product: item.product.product_name,
+            current_stock: item.current_stock,
+            latest_stock: item.latest_stock,
+            movement_stock: item.movement_stock,
+            created_at: item.createdAt,
+            updated_at: item.updatedAt
+        }))
+    }
 }

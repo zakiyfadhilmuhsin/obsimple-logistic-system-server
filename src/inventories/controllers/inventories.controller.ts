@@ -24,4 +24,16 @@ export class InventoryController {
     async getStockRecordList(@Query() pageOptionsDto: PageOptionsDto) {
         return await this.inventoryService.getStockRecordList(pageOptionsDto);
     }
+
+    @Get('export-stock-list')
+    @UseGuards(JwtAuthGuard)
+    async getExportStockList() {
+        return await this.inventoryService.exportStockList();
+    }
+
+    @Get('export-stock-record-list')
+    @UseGuards(JwtAuthGuard)
+    async getExportStockRecordList() {
+        return await this.inventoryService.exportStockRecordList();
+    }
 }

@@ -18,4 +18,16 @@ export class WarehouseController {
     async getReturnList(@Query() pageOptionsDto: PageOptionsDto) {
         return await this.warehouseService.getReturn(pageOptionsDto);
     }
+
+    @Get('export-stock-in-out-list')
+    @UseGuards(JwtAuthGuard)
+    async getExportStockInOutList() {
+        return await this.warehouseService.exportStockInOutList();
+    }
+
+    @Get('export-return-list')
+    @UseGuards(JwtAuthGuard)
+    async getExportReturnList() {
+        return await this.warehouseService.exportReturnList();
+    }
 }
