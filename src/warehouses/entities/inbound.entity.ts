@@ -36,6 +36,9 @@ export class InboundDetailEntity extends AbstractEntity {
     @Column()
     status: string;
 
+    @Column({ nullable: true })
+    expired_time: Date;
+
     @ManyToOne(() => InboundEntity, (inbound) => inbound.details)
     inbound: InboundEntity
 }

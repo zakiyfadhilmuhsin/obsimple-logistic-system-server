@@ -30,4 +30,8 @@ export class CreateInboundDetailDto {
     @IsNotEmpty()
     @IsNumber()
     quantity: number;
+
+    @IsOptional()
+    @IsString()
+    expired_time: string;
 }

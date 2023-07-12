@@ -35,6 +35,7 @@ export class InboundService {
                     planned_inbound_quantity: item.quantity,
                     actual_inbound_quantity: item.quantity,
                     status: '',
+                    expired_time: new Date(item.expired_time),
                     inbound: createdInbound
                 });
 
