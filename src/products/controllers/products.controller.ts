@@ -25,6 +25,11 @@ export class ProductsController {
         return this.productsService.findProductByBarcode(barcode);
     }
 
+    @Get('export-products')
+    async exportProducts() {
+        return await this.productsService.exportProducts();
+    }
+
     @Delete(':id')
     async deleteProduct(@Param('id') id: number) {
         return await this.productsService.remove(id);

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Query, UseGuards } from "@nestjs/common";
 import { InboundService } from "../services/inbound.service";
 import { CreateInboundDto } from "../dtos";
 import { PageOptionsDto } from "src/common/dtos";
@@ -17,5 +17,11 @@ export class InboundController {
     @UseGuards(JwtAuthGuard)
     async getInboundList(@Query() pageOptionsDto: PageOptionsDto) {
         return this.inboundService.getInboundList(pageOptionsDto);
+    }
+
+    @Get('get-inbound-by-id/:id')
+    @UseGuards(JwtAuthGuard)
+    async getInboundById(@Param('id') id: number) {
+        return await this.inboundService.getInboundById(id);
     }
 }

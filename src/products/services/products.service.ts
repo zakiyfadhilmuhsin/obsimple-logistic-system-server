@@ -73,4 +73,8 @@ export class ProductsService {
             return deleteResponse;
         }
     }
+
+    async exportProducts() {
+        return await this.productsRepository.find();
+    }
 }

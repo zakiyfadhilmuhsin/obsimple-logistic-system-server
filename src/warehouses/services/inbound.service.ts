@@ -90,4 +90,15 @@ export class InboundService {
         // Get Datatable Items
         return datatableGetItems(this.inboundRepository, "warehouse_inbound", pageOptionsDto, relations);
     }
+
+    async getInboundById(id: number) {
+        return await this.inboundRepository.findOne({ 
+            where: { id: id }, 
+            relations: {
+                details: {
+                    product: true
+                }
+            } 
+        });
+    }
 }
