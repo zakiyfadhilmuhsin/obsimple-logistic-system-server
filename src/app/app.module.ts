@@ -7,6 +7,7 @@ import { AuthenticationModule } from '../authentication/authentication.module';
 import { ProductsModule } from '../products/products.module';
 import { InventoriesModule } from 'src/inventories/inventories.module';
 import { WarehousesModule } from 'src/warehouses/warehouses.module';
+import { ReportsModule } from 'src/reports/reports.module';
 
 @Module({
   imports: [
@@ -28,7 +29,8 @@ import { WarehousesModule } from 'src/warehouses/warehouses.module';
     AuthenticationModule,
     ProductsModule,
     InventoriesModule,
-    WarehousesModule
+    WarehousesModule,
+    ReportsModule
   ],
   controllers: [],
   providers: [],
