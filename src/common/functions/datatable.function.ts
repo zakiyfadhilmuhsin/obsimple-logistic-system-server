@@ -2,7 +2,7 @@ import { PageDto, PageMetaDto, PageOptionsDto } from "../dtos";
 
 type Relation = {
     path: string;
-    relation?: Relation
+    relation?: Relation;
 }
 
 export async function datatableGetItems(
@@ -18,10 +18,10 @@ export async function datatableGetItems(
     function handleRelation(relations) {
         relations.forEach(item => {
             if(item.relation) {
-                queryBuilder.leftJoinAndSelect(`${model}.${item.path}`, 'uuid');
+                queryBuilder.leftJoinAndSelect(`${model}.${item.path}`, item.path);
                 handleRelation(item.relation);
             }else{
-                queryBuilder.leftJoinAndSelect(`${model}.${item.path}`, 'uuid');
+                queryBuilder.leftJoinAndSelect(`${model}.${item.path}`, item.path);
             }
         });
     }
@@ -31,7 +31,11 @@ export async function datatableGetItems(
 
     // Search
     if(pageOptionsDto.search_by && pageOptionsDto.search_value) {
-        queryBuilder.where(`LOWER(${model}.${pageOptionsDto.search_by}) ILIKE LOWER(:keyword)`, { keyword: `%${pageOptionsDto.search_value}%` });
+        if(pageOptionsDto.search_by.includes('.')) {
+            queryBuilder.where(`LOWER(${pageOptionsDto.search_by}) ILIKE LOWER(:keyword)`, { keyword: `%${pageOptionsDto.search_value}%` });
+        }else{
+            queryBuilder.where(`LOWER(${model}.${pageOptionsDto.search_by}) ILIKE LOWER(:keyword)`, { keyword: `%${pageOptionsDto.search_value}%` });
+        }
     }
 
     // Filter Date
@@ -44,7 +48,7 @@ export async function datatableGetItems(
     // Filter Field
     if(pageOptionsDto.filters) {
         pageOptionsDto.filters.forEach((item => {
-            queryBuilder.andWhere(`${model}.${item} = :${item}`, { [item]: item });
+            queryBuilder.andWhere(`${model}.${item.key} = :${item.key}`, { [item.key]: item.value });
         }))
     }
 

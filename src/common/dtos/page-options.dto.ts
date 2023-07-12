@@ -82,7 +82,7 @@ export class PageOptionsDto {
 
     @ApiPropertyOptional()
     @IsOptional()
-    readonly filters?: any;
+    filters?: Array<any> = [];
 
     public get skip(): number {
         return (this.page - 1) * this.limit;

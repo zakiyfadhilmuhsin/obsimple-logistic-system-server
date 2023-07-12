@@ -16,6 +16,13 @@ export class InboundController {
     @Get('list')
     @UseGuards(JwtAuthGuard)
     async getInboundList(@Query() pageOptionsDto: PageOptionsDto) {
+        if((pageOptionsDto as any).inbound_type) {
+            pageOptionsDto.filters.push({
+                key: 'inbound_type',
+                value: (pageOptionsDto as any).inbound_type
+            })
+        }
+        
         return this.inboundService.getInboundList(pageOptionsDto);
     }
 

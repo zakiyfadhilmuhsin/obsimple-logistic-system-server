@@ -16,6 +16,13 @@ export class OutboundController {
     @Get('list')
     @UseGuards(JwtAuthGuard)
     async getOutboundList(@Query() pageOptionsDto: PageOptionsDto) {
+        if((pageOptionsDto as any).status) {
+            pageOptionsDto.filters.push({
+                key: 'status',
+                value: (pageOptionsDto as any).status
+            })
+        }
+
         return this.outboundService.getOutboundList(pageOptionsDto);
     }
 
