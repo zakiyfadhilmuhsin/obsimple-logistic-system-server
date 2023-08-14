@@ -8,6 +8,7 @@ import { ProductsModule } from '../products/products.module';
 import { InventoriesModule } from 'src/inventories/inventories.module';
 import { WarehousesModule } from 'src/warehouses/warehouses.module';
 import { ReportsModule } from 'src/reports/reports.module';
+import { ShipmentModule } from 'src/shipment/shipment.module';
 
 @Module({
   imports: [
@@ -30,7 +31,8 @@ import { ReportsModule } from 'src/reports/reports.module';
     ProductsModule,
     InventoriesModule,
     WarehousesModule,
-    ReportsModule
+    ReportsModule,
+    ShipmentModule
   ],
   controllers: [],
   providers: [],
